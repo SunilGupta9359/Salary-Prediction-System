@@ -1,0 +1,38 @@
+import os
+import numpy as np
+import pandas as pd
+from matplotlib import pyplot as plt
+from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LinearRegression
+from sklearn.metrics import r2_score
+def welcome():
+    print("welcome to salary prediction system")
+    print("press ENTER key to proceed")
+    input()
+def checkcsv():
+    csv_files=[]
+    cur_dir=os.getcwd()
+    content_list=os.listdir(cur_dir)
+    for x in content_list:
+        if x.split('.')[-1]=='csv':
+            csv_files.append(x)
+    if len(csv_files)==0:
+        return 'no csv file in the directory'
+    else:
+        return csv_files
+def display_and_select_csv(csv_files):
+    i=0
+    for file_name in csv_files:
+        print(i,'...',file_name)
+        i+=1
+    return csv_files[int(input("select file to create ML model"))]
+def graph(x_train,y_train,regressionObject,x_test,y_test,y_pred):
+    plt.scatter(x_train,y_train,color='red',label='training data')
+    plt.plot(x_train,regressionObject.predict(x_train),color='blue',label='best fit')
+    plt.scatter(x_test,y_test,color='green',label='test data')
+    plt.scatter(x_test,y_pred,color='black',label='predicted test data')
+    plt.title("salary vs experience")
+    plt.xlabel('year of experience')
+    plt.ylabel('salary')
+    plt.legend()
+    plt.show()
